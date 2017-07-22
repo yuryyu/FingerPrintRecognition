@@ -18,9 +18,14 @@ namespace FingerPrintRecognition
         protected void CalculateBTN_Click(object sender, EventArgs e)
         {
             NNM nn = new NNM();
-            
+            // init parameters
+            nn.InitNNM("C:/Users/vivotext/documents/visual studio 2015/Projects/FingerPrintRecognition/FingerPrintRecognition/NN_weights.txt");
+
             txtResult = nn.GetName(ResultID.Text);
             ResultID.Text = txtResult;
+
+
+
         }
     }
 }
