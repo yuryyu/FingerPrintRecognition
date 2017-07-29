@@ -6,9 +6,25 @@ using System.Web;
 
 namespace FingerPrintRecognition
 {
+
+    
+
+
     public class NNM
     {
+        public struct Result
+        {
+            public string[] FingerStrength;
+            public double[] TotalScore;
+            public Result(string[] st1, double[] db1)
+            {
+                FingerStrength = st1;
+                TotalScore = db1;
+            }
+        }
         // global variables for NNM class: 
+        string[] StrengthRange=["Vs","S","Vg","G","W","Vw"];
+        string[] FingerPrintTypes=["WP","WU","WDS","WDSU","WD","WDU","WA","WLU","WAC","WDSC","WDSUC","WDC","WDUC","WLUC","WR","WDSR","WDR","WLR","WRC","WDSRC","WDRC","WLRC","LDVU","LDU","LVU","LU","LDVUC","LDUC","LVUC","LUC","LDVR","LDR","LVR","LR","LDVRC","LDRC","LVRC","LRC","LA","LAR","LAC","LARC","AT","A"];
         double[] x1_step1_xoffset;
         double[] x1_step1_gain;
         double x1_step1_ymin;
@@ -16,12 +32,8 @@ namespace FingerPrintRecognition
         double[] b2;
         double[,] IW1_1;
         double[,] LW2_1;
-
-        public string GetName(string name)
-        {
-            string strres = "Yura";
-            return name + " " + strres;
-        }
+        double[] Xp1, a1, n, nmax, numerator,denominator,Y;
+        
 
         public double GetStrength(string strength)
         {
@@ -152,5 +164,27 @@ namespace FingerPrintRecognition
             }            
             return 0;
         }
-      }
+
+        public  Result CalculateStrength(int[] X, string[] Y)
+        {
+            Result RR = new Result();
+
+            //Xp1 = (X - x1_step1_xoffset).* x1_step1_gain + x1_step1_ymin;
+            //// Layer 1
+            //a1 = 2./ (1 + exp(-2 * (b1 + IW1_1 * Xp1))) - 1;
+            //// Layer 2
+            //n = b2 + LW2_1 * a1;
+            //nmax = max(n);
+            //n = n - nmax;
+            //numerator = exp(n);
+            //denominator = sum(numerator);
+            //if (denominator == 0):
+            //    {
+            //    denominator = 1;
+            //}
+            //Y = numerator / denominator;
+            return RR;
+        }
+
+    }
 }
