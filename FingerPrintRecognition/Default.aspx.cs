@@ -10,8 +10,8 @@ namespace FingerPrintRecognition
     public partial class Default : System.Web.UI.Page
     {
 
-        public string[] FingerType;
-        public int[] RidgeCount;
+        public string[] FingerType = new string[10];
+        public int[] RidgeCount = new int[10];
 
         protected void Page_Load(object sender, EventArgs e)
         {
