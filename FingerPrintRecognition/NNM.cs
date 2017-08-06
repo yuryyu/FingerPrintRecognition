@@ -24,7 +24,7 @@ namespace FingerPrintRecognition
         }
         // global variables for NNM class: 
         string[] StrengthRange= { "Vs", "S", "Vg", "G", "W", "Vw" };
-        string[] FingerPrintTypes= { "WP", "WU", "WDS", "WDSU", "WD", "WDU", "WA", "WLU", "WAC", "WDSC", "WDSUC", "WDC", "WDUC", "WLUC", "WR", "WDSR", "WDR", "WLR", "WRC", "WDSRC", "WDRC", "WLRC", "LDVU", "LDU", "LVU", "LU", "LDVUC", "LDUC", "LVUC", "LUC", "LDVR", "LDR", "LVR", "LR", "LDVRC", "LDRC", "LVRC", "LRC", "LA", "LAR", "LAC", "LARC", "AT", "A" };
+        string[] FingerPrintTypes= { "WP", "WU", "WDS", "WDSU", "WD", "WDU", "WA", "WLU", "WPC", "WUC", "WAC", "WDSC", "WDSUC", "WDC", "WDUC", "WLUC", "WR", "WDSR", "WDR", "WLR", "WRC", "WDSRC", "WDRC", "WLRC", "LDVU", "LDU", "LVU", "LU", "LDVUC", "LDUC", "LVUC", "LUC", "LDVR", "LDR", "LVR", "LR", "LDVRC", "LDRC", "LVRC", "LRC", "LA", "LAR", "LAC", "LARC", "AT", "A" };
         double[] x1_step1_xoffset;
         double[] x1_step1_gain;
         double x1_step1_ymin;
@@ -192,7 +192,7 @@ namespace FingerPrintRecognition
                 FTypeWeight[a] = FingerPrintTypesRange(Y[a]);
             }
 
-            int Hand = 100;
+            int Hand = 100, Shift=1;
             double[] INPUT = new double[25];
             double[] YO = new double[6];
             for (int f = 0; f < X.Length; f++)
@@ -200,6 +200,7 @@ namespace FingerPrintRecognition
                 // Form INPUT[25,double] - one finger                
                 if (f > 4){
                     Hand = 200;
+                    Shift = -4;
                 }
                 for (int j = 0; j < 5; j++)
                 {
@@ -208,7 +209,7 @@ namespace FingerPrintRecognition
                     INPUT[j + 10] = FTypeWeight[j + 5];
                     INPUT[j + 15] = X[j + 5];
                 }
-                INPUT[20] = (double)10 * ((double)f+1);
+                INPUT[20] = (double)10 * ((double)f+Shift);
                 INPUT[21] = Hand;
                 INPUT[22] = TC;
                 INPUT[23] = RidgeWeight[f];
@@ -262,7 +263,7 @@ namespace FingerPrintRecognition
                 multrez2[i] = 0;
                 for (int j = 0; j < a1.Length; j++)
                 {
-                    multrez2[i] = multrez[i] + LW2_1[i, j] * a1[j];
+                    multrez2[i] = multrez2[i] + LW2_1[i, j] * a1[j];
                 }
                 n[i] = b2[i] + multrez2[i];
             }
