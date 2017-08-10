@@ -173,12 +173,23 @@ namespace FingerPrintRecognition
 
         public  Result CalculateStrength(int[] X, string[] Y)
         {
-            Result RR = new Result();
-            RR.FingerStrength = new string[10];
-            RR.TotalScore = new double[10];
+            Result RR = new Result
+            {
+                FingerStrength = new string[10],
+                TotalScore = new double[10]
+            };
             double[]  RidgeWeight = new double[10], FTypeWeight = new double[10];
             //Calculate TC
-            double TC = X.Sum();            
+            double TC = X.Sum();
+            if (TC == 0)
+            {                
+                // added escape with 'Vw' and '1.0" for all fingers
+                for (int f = 0; f < X.Length; f++) {
+                    RR.FingerStrength[f] = StrengthRange[StrengthRange.Length-1];
+                    RR.TotalScore[f] = 1.0;
+                }
+                return RR;
+            }
 
             //Calculate Ridge weights for each finger
             for (int a = 0; a < X.Length; a = a + 1)
