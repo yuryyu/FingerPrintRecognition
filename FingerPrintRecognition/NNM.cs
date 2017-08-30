@@ -230,8 +230,27 @@ namespace FingerPrintRecognition
                 //Assign output for each finger
                 int indYO = YO.ToList().IndexOf(YO.Max());
                 RR.FingerStrength[f]= StrengthRange[indYO];
-                RR.TotalScore[f] = YO.Max();
-            }                        
+                // Old total score 
+                //RR.TotalScore[f] = YO.Max();
+                // update from 30.09.17
+                /* 
+                 * % weighted score calculation - common sum, added 30.09.17
+                    % weghts: 
+                    % 'Vs' - 60,
+                    % 'S'  - 50,
+                    % 'Vg' - 40,
+                    % 'G'  - 30,
+                    % 'W'  - 20,
+                    % 'Vw' - 10
+                    WSC=[60;50;40;30;20;10];                  
+                 * */
+                double totalscore=0.0;
+                for (int j = 0; j < 5; j++)
+                {
+                    totalscore = totalscore + YO[j]*(6-j)*10;
+                }
+                RR.TotalScore[f] = totalscore;
+            }
             return RR;
         }
 
